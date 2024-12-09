@@ -9,9 +9,11 @@ const int screenHeight = 480;
 const int topHeight = 35;
 const int tunerHeight = 100;
 const int barHeight = 110; // 90;
+const int buttonHeight = 40;
+const int button_width = 30;
 
-lv_obj_t *scr, *label_status, *bar_view, *button;
-lv_style_t style_btn;
+lv_obj_t *scr, *label_status, *bar_view, *button, *Textfield;
+lv_style_t style_btn, text_style;
 
 static int counter = 0;
 
@@ -70,6 +72,18 @@ int main(int argc, char *argv[])
 	lv_obj_add_style(button, &style_btn, 0);
 	lv_obj_add_event_cb(button, button_event_cb, LV_EVENT_CLICKED, NULL);
 	lv_obj_align(button, LV_ALIGN_CENTER, 0,0);
+
+	lv_style_init(&text_style);
+	lv_style_set_radius(&text_style, 0);
+	lv_style_set_bg_color(&text_style, lv_color_black());
+
+	Textfield = lv_textarea_create(lv_scr_act());
+	lv_obj_add_style(Textfield, &text_style, 0);
+	lv_textarea_set_one_line(Textfield, true);
+	lv_obj_align_to(Textfield, button, LV_ALIGN_TOP_LEFT, 0,0);
+	//lv_obj_add_event_cb(Textfield, textarea_event_handler, LV_EVENT_ALL, Textfield);
+	lv_obj_add_state(Textfield, LV_STATE_FOCUSED); /*To be sure the cursor is visible*/
+	//lv_obj_set_size(Textfield, 3 * button_width, button_height);
 
 	while (1)
 	{
