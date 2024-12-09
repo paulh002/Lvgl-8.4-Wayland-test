@@ -32,7 +32,7 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
-**/.visualgdb/
+.visualgdb/
 **/CodeDB/
 **/.vscode/
 
