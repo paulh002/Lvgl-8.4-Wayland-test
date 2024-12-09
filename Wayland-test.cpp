@@ -2,6 +2,7 @@
 #include "lv_drivers/wayland/wayland.h"
 #include <time.h>
 #include <unistd.h>
+#include <stdio.h>
 
 const int screenWidth = 800;
 const int screenHeight = 480;
@@ -9,7 +10,19 @@ const int topHeight = 35;
 const int tunerHeight = 100;
 const int barHeight = 110; // 90;
 
-lv_obj_t *scr, *label_status, *bar_view;
+lv_obj_t *scr, *label_status, *bar_view, *button;
+lv_style_t style_btn;
+
+static int counter = 0;
+
+static void button_event_cb(lv_event_t *e)
+{
+	char str[80];
+	lv_obj_t *obj = lv_event_get_target(e);
+
+	sprintf(str, "Hello button pressed %d", counter++);
+	lv_label_set_text(label_status, str);
+}
 
 int main(int argc, char *argv[])
 {
@@ -40,6 +53,23 @@ int main(int argc, char *argv[])
 	// lv_obj_add_style(label_status, &LabelTextStyle, 0);
 	lv_obj_align(label_status, LV_ALIGN_LEFT_MID, 0, 0);
 	lv_label_set_text(label_status, "Hello");
+
+	lv_style_init(&style_btn);
+	lv_style_set_radius(&style_btn, 10);
+	lv_style_set_bg_color(&style_btn, lv_color_make(0x60, 0x60, 0x60));
+	lv_style_set_bg_grad_color(&style_btn, lv_color_make(0x00, 0x00, 0x00));
+	lv_style_set_bg_grad_dir(&style_btn, LV_GRAD_DIR_VER);
+	lv_style_set_bg_opa(&style_btn, 255);
+	lv_style_set_border_color(&style_btn, lv_color_make(0x9b, 0x36, 0x36)); // lv_color_make(0x2e, 0x44, 0xb2)
+	lv_style_set_border_width(&style_btn, 2);
+	lv_style_set_border_opa(&style_btn, 255);
+	lv_style_set_outline_color(&style_btn, lv_color_black());
+	lv_style_set_outline_opa(&style_btn, 255);
+
+	button = lv_btn_create(lv_scr_act());
+	lv_obj_add_style(button, &style_btn, 0);
+	lv_obj_add_event_cb(button, button_event_cb, LV_EVENT_CLICKED, NULL);
+	lv_obj_align(button, LV_ALIGN_CENTER, 0,0);
 
 	while (1)
 	{
