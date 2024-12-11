@@ -2496,6 +2496,7 @@ int lv_wayland_get_fd(void)
  * @param hor_res initial horizontal window size in pixels
  * @param ver_res initial vertical window size in pixels
  * @param title window title
+ * @param keyboard_group group for keyboard text fields, see v8 keyboard documentation, create a group before calling lv_wayland_create_window
  * @param close_cb function to be called when the window gets closed by the user (optional)
  * @return new display backed by a Wayland window, or NULL on error
  */
