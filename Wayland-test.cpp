@@ -14,6 +14,7 @@ const int button_width = 30;
 
 lv_obj_t *scr, *label_status, *bar_view, *button, *Textfield;
 lv_style_t style_btn, text_style;
+lv_group_t *keyboard_group;
 
 static int counter = 0;
 
@@ -26,13 +27,26 @@ static void button_event_cb(lv_event_t *e)
 	lv_label_set_text(label_status, str);
 }
 
+void textarea_event_handler(lv_event_t *e)
+{
+	lv_event_code_t code = lv_event_get_code(e);
+	lv_obj_t *ta = lv_event_get_target(e);
+
+	if (code == LV_EVENT_CLICKED || code == LV_EVENT_FOCUSED || code == LV_EVENT_VALUE_CHANGED)
+	{
+		/*Focus on the clicked text area*/
+		// printf("text event\n");
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	lv_init();
 	lv_wayland_init();
+	keyboard_group = lv_group_create();
 	lv_disp_t *disp = lv_wayland_create_window(screenWidth,
 											   screenHeight,
-											   "Wayland-lvgl-8.4 test",
+											   "Wayland-lvgl-8.4 test", keyboard_group,
 											   NULL);
 	
 	lv_theme_t *th = lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_CYAN), LV_THEME_DEFAULT_DARK, &lv_font_montserrat_14);
@@ -81,9 +95,10 @@ int main(int argc, char *argv[])
 	lv_obj_add_style(Textfield, &text_style, 0);
 	lv_textarea_set_one_line(Textfield, true);
 	lv_obj_align_to(Textfield, button, LV_ALIGN_TOP_LEFT, 0,0);
-	//lv_obj_add_event_cb(Textfield, textarea_event_handler, LV_EVENT_ALL, Textfield);
+	lv_obj_add_event_cb(Textfield, textarea_event_handler, LV_EVENT_ALL, Textfield);
 	lv_obj_add_state(Textfield, LV_STATE_FOCUSED); /*To be sure the cursor is visible*/
 	//lv_obj_set_size(Textfield, 3 * button_width, button_height);
+	lv_group_add_obj(keyboard_group, Textfield);
 
 	while (1)
 	{

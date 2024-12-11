@@ -5,6 +5,7 @@ To use them for lvgl 8.4 some small adjustments have been make
 1) define lv_malloc and lv_free these are named differently in lvgl 8.4
 2) Added wayland.h include file to ssm.c 
 3) Settings in lv_conf.h and lv_driver_conf.h
+4) Add keyboard_group group to wayland create window. This is necessary for v8 keyboard support.
 
 The resolution is set to 800x480 color depth is 32. 
 Memory management is set to custom (normal linux malloc)

@@ -2499,7 +2499,7 @@ int lv_wayland_get_fd(void)
  * @param close_cb function to be called when the window gets closed by the user (optional)
  * @return new display backed by a Wayland window, or NULL on error
  */
-lv_disp_t * lv_wayland_create_window(lv_coord_t hor_res, lv_coord_t ver_res, char *title,
+lv_disp_t * lv_wayland_create_window(lv_coord_t hor_res, lv_coord_t ver_res, char *title, lv_group_t *keyboard_group,
                                      lv_wayland_display_close_f_t close_cb)
 {
     lv_color_t * buf1 = NULL;
@@ -2576,7 +2576,7 @@ lv_disp_t * lv_wayland_create_window(lv_coord_t hor_res, lv_coord_t ver_res, cha
     {
         LV_LOG_ERROR("failed to register keyboard indev");
     }
-
+	lv_indev_set_group(window->lv_indev_keyboard, keyboard_group);
     return window->lv_disp;
 }
 
